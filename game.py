@@ -1,3 +1,4 @@
+# Import the required libraries
 import pygame
 from pygame.locals import *
 import math
