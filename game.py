@@ -1,6 +1,7 @@
 import pygame
 from pygame.locals import *
 import math
+import random
 
 # Initialize the game
 pygame.init()
@@ -10,15 +11,22 @@ keys = [False, False, False, False]
 playerpos = [100, 100]
 acc = [0, 0]
 arrows = []
+badtimer = 100
+badtimer1 = 0
+badguys = [[640, 100]]
+healthvalue = 194
 
 # Load images
 player = pygame.image.load("resources/images/dude.png")
 grass = pygame.image.load("resources/images/grass.png")
 castle = pygame.image.load("resources/images/castle.png")
 arrow = pygame.image.load("resources/images/bullet.png")
+badguyimg1 = pygame.image.load("resources/images/badguy.png")
+badguyimg = badguyimg1
 
 # keep looping through
 while 1:
+    badtimer -= 1
     # Clear the screen before drawing it again
     screen.fill(0)
 
@@ -51,6 +59,32 @@ while 1:
         for projectile in arrows:
             arrow1 = pygame.transform.rotate(arrow, 360-projectile[0]*57.29)
             screen.blit(arrow1, (projectile[1], projectile[2]))
+
+    # Draw badgers
+    if badtimer == 0:
+        badguys.append([640, random.randint(50, 430)])
+        badtimer = 100-(badtimer1*2)
+        if badtimer1 >= 35:
+            badtimer1 = 35
+        else:
+            badtimer1 += 5
+    index = 0
+    for badguy in badguys:
+        if badguy[0] < -64:
+            badguys.pop(index)
+        badguy[0] -= 7
+
+        # Attack castle
+        badrect = pygame.Rect(badguyimg.get_rect())
+        badrect.top = badguy[1]
+        badrect.left = badguy[0]
+        if badrect.left < 64:
+            healthvalue -= random.randint(5, 20)
+            badguys.pop(index)
+        index += 1
+
+    for badguy in badguys:
+        screen.blit(badguyimg, badguy)
 
     # Update the screen
     pygame.display.flip()
