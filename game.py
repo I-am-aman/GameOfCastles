@@ -29,6 +29,11 @@ health = pygame.image.load("resources/images/health.png")
 gameover = pygame.image.load("resources/images/gameover.png")
 youwin = pygame.image.load("resources/images/youwin.png")
 
+# Function for quitting the game
+def quitGame():
+    pygame.quit()
+    exit(0)
+            
 # keep looping through
 running = 1
 exitcode = 0
@@ -126,8 +131,7 @@ while running:
         # Check if the event is the X button
         if event.type == pygame.QUIT:
             # if it is quit the game
-            pygame.quit()
-            exit(0)
+            quitGame()
         if event.type == pygame.KEYDOWN:
             if event.key == K_w:
                 keys[0] = True
@@ -196,7 +200,6 @@ else:
 while 1:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            pygame.quit()
-            exit(0)
+            quitGame()
     pygame.display.flip()
 
